@@ -10,11 +10,8 @@ const glob = require('glob')
 // https://stackoverflow.com/questions/5364928/node-js-require-all-files-in-a-folder
 
 const app = express();
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['conten-Type', 'Authorization']
-}));
+// https://github.com/expressjs/cors
+app.use(cors());
 
 // port
 let NODE_PORT = process.env.PORT || 5000;
@@ -22,6 +19,7 @@ app.use(express.static(path.join(__dirname, './')));
 
 
 const whiteList = ['index.js']
+
 const mocks = glob.sync(`${__dirname}/../mock/*.js`, { cwd: process.cwd() })
   .filter(file => !whiteList.includes(file.slice(2)))
   .map((file) => ({ ...require(path.resolve(file)), __route: path.basename(file, '.js') }));

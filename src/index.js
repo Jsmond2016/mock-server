@@ -13,12 +13,14 @@ const app = express();
 // https://github.com/expressjs/cors
 app.use(cors());
 
-// port
+// port  https://juejin.cn/post/6844903844485267469 process.env.PORT undefined 问题
 let NODE_PORT = process.env.PORT || 5000;
+console.log('process.env.PORT: ', process.env);
 app.use(express.static(path.join(__dirname, './')));
 
 
 const whiteList = ['index.js']
+const prefix = "api"
 
 const mocks = glob.sync(`${__dirname}/../mock/*.js`, { cwd: process.cwd() })
   .filter(file => !whiteList.includes(file.slice(2)))
@@ -32,7 +34,7 @@ mocks.forEach(r => {
     const cb = r[key]
     router[method.toLowerCase()](pathname, cb)
     app.use(`/${__route}`, router)
-    logRouteMap.push({ method, module: __route, pathname: `/${__route}${pathname}` })
+    logRouteMap.push({ method, module: __route, pathname: `${prefix}/${__route}${pathname}` })
   }
 })
 

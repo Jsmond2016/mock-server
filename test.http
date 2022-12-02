@@ -1,5 +1,8 @@
 GET http://localhost:5001/user/get
 
+###
+GET http://localhost:8088/test
+
 
 ###
 POST http://localhost:5001/user/post
